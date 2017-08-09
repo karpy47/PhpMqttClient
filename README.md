@@ -1,5 +1,5 @@
 # php-mqtt-client
-MQTT 3.1.1 Client with SSL support in PHP
+MQTT 3.1.1 Client with TSL support in PHP
 
 # Installation
 
