@@ -14,7 +14,7 @@
             "karpy47\\php-mqtt-client\\": "" 
         }
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "require": {
     }
 }
