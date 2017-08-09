@@ -42,8 +42,8 @@ Not tested on PHP v7, please report back!
     
 # Credits
 
-Thanks to bluerhinos/phpMQTT and McFizh/libMQTT.
+Thanks to [bluerhinos/phpMQTT](https://github.com/bluerhinos/phpMQTT) and [McFizh/libMQTT](https://github.com/McFizh/libMQTT).
 
 # License
 
-Released under the MIT License.
+Released under the MIT License. Please see [License File](LICENSE) for more information.
