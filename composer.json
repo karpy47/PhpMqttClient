@@ -5,12 +5,14 @@
     "version": "1.0.1",
     "license": "MIT",
     "authors": [
-        {
-            "name": "karpy47",          
+        { 
+            "name": "karpy47" 
         }
     ],
     "autoload": {
-        "psr-4": { "karpy47\\php-mqtt-client\\": "" }
+        "psr-4": { 
+            "karpy47\\php-mqtt-client\\": "" 
+        }
     },
     "minimum-stability": "dev",
     "require": {
