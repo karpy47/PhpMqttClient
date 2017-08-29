@@ -1,6 +1,8 @@
 # php-mqtt-client
 MQTT 3.1.1 Client with TSL support in PHP
 
+Note that all calls are blocking until a timeout occurs. If you need some fancy async solution, you'll have to find another repo. 
+
 # Installation
 
 The preferred way to install this extension is through [composer](http://getcomposer.org/download/).
@@ -26,7 +28,7 @@ Not tested on PHP v7, please report back!
 # Basic Usage
 
     $client = new MQTTClient('mqtt-server.domain.com', 8162);
-    $client->setAuthentication'mqtt-server.username','mqtt-server.password');
+    $client->setAuthentication('mqtt-server.username','mqtt-server.password');
     $client->setEncryption('cacerts.pem');
     $success = $client->sendConnect(12345);  // set your client ID
     if ($success) {
