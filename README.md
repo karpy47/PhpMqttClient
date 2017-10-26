@@ -33,8 +33,8 @@ Not tested on PHP v7, please report back!
     $success = $client->sendConnect(12345);  // set your client ID
     if ($success) {
         $client->sendSubscribe('topic1');
-        $client->sendPublish('topic2');
-        $messages = $client->getPublishMessages();
+        $client->sendPublish('topic2', 'Message to all subscribers of this topic');
+        $messages = $client->getPublishMessages();  // now read and acknowledge all messages waiting
         foreach ($messages as $message) {
             echo $message['topic'] .': '. $message['message'] . PHP_EOL;
         }
