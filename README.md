@@ -3,6 +3,8 @@ MQTT 3.1.1 Client with TSL support in PHP
 
 Note that all calls are blocking until a timeout occurs. If you need some fancy async solution, you'll have to find another repo. 
 
+This implementation works with [MQTT ver 3.1.1](http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html) for QOS levels 0 and 1. QOS level 2 should work, but is experimental until better tested.
+
 # Installation
 
 The preferred way to install this extension is through [composer](http://getcomposer.org/download/).
