@@ -223,13 +223,15 @@ class MQTTClient {
 	    if (!$this->serverAddress) return false;
 
 	    // Basic validation of clientid
+	    // Note: A MQTT server may accept other chars and more than 23 chars in the clientid but that is optional, 
+	    // all chars below up to 23 chars are required to be accepted (see section 3.1.3.1 Client Identifier ot the standard)
 	    if(preg_match("/[^0-9a-zA-Z]/",$clientId)) {
 	        $this->debugMessage('ClientId can only contain characters 0-9,a-z,A-Z');
-	        return;
+	        return false;
 	    }
 	    if(strlen($clientId) > 23) {
 	        $this->debugMessage('ClientId max length is 23 characters/numbers');
-	        return;
+	        return false;
 	    }
 	    $this->clientId = $clientId;
 
@@ -331,7 +333,7 @@ class MQTTClient {
 	    $connectFlags = 0;
 		if ($this->connectCleanSession) $connectFlags += 0x02;
 	    if ($this->connectWill) {
-	        $connectflags += 0x04;
+	        $connectFlags += 0x04;
 	        if ($this->connectWillQos) $connectFlags += ($this->connectWill << 3);
 	        if ($this->connectWillRetain) $connectFlags += 0x20;
 	    }
