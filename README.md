@@ -1,7 +1,9 @@
-# php-mqtt-client
+# PhPMqttClient
 MQTT 3.1.1 Client with TSL support in PHP
 
 Note that all calls are blocking until a timeout occurs. If you need some fancy async solution, you'll have to find another repo. 
+
+This implementation works with [MQTT ver 3.1.1](http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html) for QOS levels 0 and 1. QOS level 2 should work, but is experimental until better tested.
 
 # Installation
 
@@ -9,11 +11,11 @@ The preferred way to install this extension is through [composer](http://getcomp
 
 Either run
 
-    php composer.phar require --prefer-dist karpy47/php-mqtt-client
+    php composer.phar require --prefer-dist karpy47/PhpMqttClient
 
 or add
 
-    "karpy47/php-mqtt-client": "*"
+    "karpy47/PhpMqttClient": "*"
 
 to the require section of your composer.json.
 
@@ -21,9 +23,7 @@ to the require section of your composer.json.
 
 Should work with all recent PHP versions.
 
-Code developed and running in production using PHP v5.6.27
-
-Not tested on PHP v7, please report back!
+Code developed and running in production using PHP v7.0.27 (previously also PHP v5.6.27)
 
 # Basic Usage
 
@@ -45,6 +45,8 @@ Not tested on PHP v7, please report back!
 # Credits
 
 Thanks to [bluerhinos/phpMQTT](https://github.com/bluerhinos/phpMQTT) and [McFizh/libMQTT](https://github.com/McFizh/libMQTT).
+
+Also thanks to [pascalwacker](https://github.com/pascalwacker/php-mqtt-client) for forking and fixing some bugs.
 
 # License
 
