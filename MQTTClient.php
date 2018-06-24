@@ -394,7 +394,7 @@ class MQTTClient {
 	public function sendPublish($topic, $message, $qos = self::MQTT_QOS1) {
 	    if(!$this->isConnected()) return false;
 
-	    if($qos!=self::MQTT_QOS0 && $qos!=self::MQTT_QOS1) return false;
+	    if($qos!=self::MQTT_QOS0 && $qos!=self::MQTT_QOS1 && $qos!=self::MQTT_QOS2) return false;
 
 	    $packetId = $this->getNextPacketId();
 	    $payload = $this->createPayload($topic);
