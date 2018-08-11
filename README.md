@@ -11,11 +11,11 @@ The preferred way to install this extension is through [composer](http://getcomp
 
 Either run
 
-    php composer.phar require --prefer-dist karpy47/PhpMqttClient
+    php composer.phar require --prefer-dist karpy47/php-mqtt-client
 
 or add
 
-    "karpy47/PhpMqttClient": "*"
+    "karpy47/php-mqtt-client": "*"
 
 to the require section of your composer.json.
 
