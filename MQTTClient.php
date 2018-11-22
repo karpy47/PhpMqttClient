@@ -3,7 +3,7 @@
  * Implementation of MQTT 3.1.1 for PHP with SSL support
  */
 
-namespace karpy47/PhpMqttClient;
+namespace karpy47\PhpMqttClient;
 
 class MQTTClient {
 
@@ -426,7 +426,7 @@ class MQTTClient {
 	        }
 
 	        // Send PUBREL
-	        $this->sendPubRel($receivedPacketId);
+	        $this->sendPubRel($response['packetId']);
 
 	        // A PUBCOMP packet is expected
 	        $response = $this->waitForPacket(self::MQTT_PUBCOMP, $packetId);
