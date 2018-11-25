@@ -1,4 +1,4 @@
-<?PHP
+<?php
 /**
  * Implementation of MQTT 3.1.1 for PHP with SSL support
  */
