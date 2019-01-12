@@ -1003,10 +1003,22 @@ class MQTTClient {
 	    $topicLength = (ord($packet[1])<<8) + ord($packet[2]);
 	    $topic = substr($packet, 3, $topicLength);
 
-	    $packet = substr($packet, 3 + $topicLength);
-	    $packetId = (ord($packet[0])<<8) + ord($packet[1]);
-	    $message = substr($packet, 2);   // skip packet id (2 bytes) and payload length (2 bytes)
-
+	    $payload = substr($packet, 3 + $topicLength);   // Get the payload of the packet 
+	    if ($qos == 0) {
+		// no packet id for QoS 0, payload = message
+		$message = $payload;    
+		$packetId = NULL;
+	    } else {	
+		// skip packet id (2 bytes) for QoS 1 and 2
+		if (strlen($payload) >= 2) {
+		    $packetId = (ord($payload[0])<<8) + ord($payload[1]);
+		    $message = substr($payload, 2);   
+		} else {
+		    // 2 byte packet id required, but not found. exit gracefully (no failure)
+		    $packetId = NULL;   
+		    $message = '';
+		}
+	    } 
 	    return [
 	        'topic' => self::convertActiveMqTopic($topic),
 	        'message' => $message,
