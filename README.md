@@ -27,6 +27,8 @@ Code developed and running in production using PHP v7.0.27 (previously also PHP 
 
 # Basic Usage
 
+    use karpy47\PhpMqttClient\MQTTClient;
+    
     $client = new MQTTClient('mqtt-server.domain.com', 8162);
     $client->setAuthentication('mqtt-server.username','mqtt-server.password');
     $client->setEncryption('cacerts.pem');
