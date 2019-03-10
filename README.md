@@ -51,9 +51,9 @@ Code developed and running in production using PHP v7.0.27 (previously also PHP 
 
 Thanks to [bluerhinos/phpMQTT](https://github.com/bluerhinos/phpMQTT) and [McFizh/libMQTT](https://github.com/McFizh/libMQTT).
 
-Also thanks to:
+Also thanks to
 * [pascalwacker](https://github.com/pascalwacker/php-mqtt-client) for forking and fixing some bugs
-* [tobbexiv](https://github.com/tobbexiv) for findingand fixing  several bugs
+* [tobbexiv](https://github.com/tobbexiv) for finding and fixing several bugs
 
 # License
 
