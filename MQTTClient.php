@@ -600,7 +600,7 @@ class MQTTClient {
 	    $this->pingReqTime = time();
 
 	    // A PINGRESP packet is expected
-	    $response = waitForPacket(self::MQTT_PINGRESP);
+	    $response = $this->waitForPacket(self::MQTT_PINGRESP);
 	    if($responseHeader === false) {
 	        $this->debugMessage('Invalid packet received, expecting PINGRESP');
 	        return false;
