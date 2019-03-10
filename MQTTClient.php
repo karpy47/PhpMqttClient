@@ -861,7 +861,7 @@ class MQTTClient {
 	        return false;
 	    }
 
-	    $payload = $this->readBytes($packetLength);
+	    $payload = $packetLength > 0 ? $this->readBytes($packetLength) : '';
 	    if ($payload === false) {
 	        $this->lastReadStatus = self::READ_STATUS_ERROR_PAYLOAD;
 	        return false;
