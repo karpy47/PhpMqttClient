@@ -784,7 +784,7 @@ class MQTTClient {
 	 * @return string
 	 */
 	private function encodeLength($len) {
-	    if ($len <= 0 || $len >= 128*128*128*128) {
+	    if ($len < 0 || $len >= 128*128*128*128) {
 	        // illegal length
 	        return false;
 	    }
