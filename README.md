@@ -39,16 +39,21 @@ Code developed and running in production using PHP v7.0.27 (previously also PHP 
         $messages = $client->getPublishMessages();  // now read and acknowledge all messages waiting
         foreach ($messages as $message) {
             echo $message['topic'] .': '. $message['message'] . PHP_EOL;
+            // Other keys in $message array: retain (boolean), duplicate (boolean), qos (0-2), packetId (2-byte integer)
         }
         $client->sendDisconnect();    
     }
     $client->close();
     
+    
+    
 # Credits
 
 Thanks to [bluerhinos/phpMQTT](https://github.com/bluerhinos/phpMQTT) and [McFizh/libMQTT](https://github.com/McFizh/libMQTT).
 
-Also thanks to [pascalwacker](https://github.com/pascalwacker/php-mqtt-client) for forking and fixing some bugs.
+Also thanks to:
+* [pascalwacker](https://github.com/pascalwacker/php-mqtt-client) for forking and fixing some bugs
+* [tobbexiv](https://github.com/tobbexiv) for findingand fixing  several bugs
 
 # License
 
