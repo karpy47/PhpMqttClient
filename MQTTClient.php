@@ -887,7 +887,7 @@ class MQTTClient {
 	 */
 	private function readPackets($maxPackets = 100) {
 	    $receivedPackets = 0;
-	    while (($packet = $this->readNextPacket()) !== false && ($receivedPackets < $maxPackets)) {
+	    while (($receivedPackets < $maxPackets) && ($packet = $this->readNextPacket()) !== false) {
 	        $this->packetQueue[] = $packet;
 	        $receivedPackets++;
 	    }
