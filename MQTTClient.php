@@ -547,7 +547,7 @@ class MQTTClient {
 	        $topicsResult[$topic] = [];
 	        if ($responsePayload[$i] > 0x02) {
 	            $topicsResult[$topic]['success'] = false;
-	            $$topicsResult[$topic]['qosGiven'] = null;
+	            $topicsResult[$topic]['qosGiven'] = null;
 	        } else {
 	            $topicsResult[$topic]['success'] = true;
 	            $topicsResult[$topic]['qosGiven'] = (int) ord($responsePayload[$i]);
