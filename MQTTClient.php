@@ -937,7 +937,7 @@ class MQTTClient {
 	 */
 	private function isPacketVerified($packet, $header, $verifyPacketId = false) {
 	    if (is_string($packet) && strlen($packet) >= 1) {
-    	    if ((int)(ord($packet[0])&0xf0) == (int)$header) {
+	        if ((int)(ord($packet[0])&0xf0) == (int)($header&0xf0)) {
     	        if ($verifyPacketId === false) return true;
 	            if (strlen($packet) >= 3) {
 	                $receivedPacketId = (int)(ord($packet[1])<<8) + ord($packet[2]);
