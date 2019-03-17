@@ -13,7 +13,7 @@ class MQTTClient {
     const MQTT_PUBLISH     = 0x30; // Publish message
     const MQTT_PUBACK      = 0x40; // Publish acknowledgment
     const MQTT_PUBREC      = 0x50; // Publish received (assured delivery part 1)
-    const MQTT_PUBREL      = 0x60; // Publish release (assured delivery part 2)
+    const MQTT_PUBREL      = 0x62; // Publish release (assured delivery part 2)
     const MQTT_PUBCOMP     = 0x70; // Publish complete (assured delivery part 3)
     const MQTT_SUBSCRIBE   = 0x80; // Client subscribe request
     const MQTT_SUBACK      = 0x90; // Subscribe acknowledgment
