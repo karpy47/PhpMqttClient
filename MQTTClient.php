@@ -426,7 +426,7 @@ class MQTTClient {
 	        }
 
 	        // Send PUBREL
-	        $this->sendPubRel($response['packetId']);
+	        $this->sendPubRel($packetId);
 
 	        // A PUBCOMP packet is expected
 	        $response = $this->waitForPacket(self::MQTT_PUBCOMP, $packetId);
