@@ -426,7 +426,11 @@ class MQTTClient {
 	        }
 
 	        // Send PUBREL
-	        $this->sendPubRel($packetId);
+	        $response = $this->sendPubRel($packetId);
+	        if($response === false) {
+	            $this->debugMessage('Failed to send PUBREL');
+	            return false;
+	        }
 
 	        // A PUBCOMP packet is expected
 	        $response = $this->waitForPacket(self::MQTT_PUBCOMP, $packetId);
