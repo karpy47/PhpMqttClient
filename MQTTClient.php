@@ -937,7 +937,7 @@ class MQTTClient {
 	 */
 	private function isPacketVerified($packet, $header, $verifyPacketId = false) {
 	    if (is_string($packet) && strlen($packet) >= 1) {
-    	    if ((int)(ord($packet[0])&0xf0) == (int)$header) {
+	        if ((int)(ord($packet[0])&0xf0) == (int)($header&0xf0)) {
     	        if ($verifyPacketId === false) return true;
 	            if (strlen($packet) >= 3) {
 	                $receivedPacketId = (int)(ord($packet[1])<<8) + ord($packet[2]);
@@ -971,21 +971,47 @@ class MQTTClient {
 	 * Get PUBLISH packets and return them as messages
 	 *
 	 * @param integer $maxMessages Max messages to read
-	 * @param boolean $sendPubAck If true, then send PUBACK to MQTT-server
-	 * @return string[] All PUBLISH messages
+	 * @param boolean $sendPubAck If true, then send PUBACK to MQTT-server (QoS 1)
+	 * @param boolean $sendPubRec If true, then send PUBREC to MQTT-server, wait for PUBREL and send PUBCOMP (QoS 2)
+	 * @return string[] All PUBLISH messages which were confirmed or no confirmation needed/wanted
 	 */
-	public function getPublishMessages($maxMessages = 100, $sendPubAck = false) {
-        $packetsRead = $this->readPackets($maxMessages); //$maxMessages);
+	public function getPublishMessages($maxMessages = 100, $sendPubAck = false, $sendPubRec = false) {
+        $packetsRead = $this->readPackets($maxMessages);
         $packets = $this->getQueuePackets(self::MQTT_PUBLISH);
 	    $messages = [];
 	    foreach ($packets as $key => $packet) {
 	        $message = $this->decodePublish($packet);
-	        if ($message) {
-	            $messages[] = $message;
-	            if ($sendPubAck && ($message['qos'] == self::MQTT_QOS1)) {
-	                $this->sendPubAck($message['packetId']);
-	            }
+	        if ($message === false) {
+	            $this->debugMessage('Message could not be decoded');
+	            continue;
 	        }
+	        
+            if ($sendPubAck && ($message['qos'] == self::MQTT_QOS1)) {
+                if($this->sendPubAck($message['packetId']) === false) {
+                    $this->debugMessage('Failed to send PUBACK');
+                    continue;
+                }
+            } elseif ($sendPubRec && ($message['qos'] == self::MQTT_QOS2)) {
+                // Send PUBREC
+                if($this->sendPubRec($message['packetId']) === false) {
+                    $this->debugMessage('Failed to send PUBREC');
+                    continue;
+                }
+                // A PUBREL packet is expected
+                $response = $this->waitForPacket(self::MQTT_PUBREL, $message['packetId']);
+                if($response === false) {
+                    $this->debugMessage('Packet missing, expecting PUBREL');
+                    continue;
+                }
+                // Send PUBCOMP
+                if($this->sendPubComp($message['packetId']) === false) {
+                    $this->debugMessage('Failed to send PUBCOMP');
+                    continue;
+                }
+            }
+            
+            // Package was successfully confirmed or no confirmation needed/wanted --> store it
+            $messages[] = $message;
 	    }
 	    return $messages;
 	}
