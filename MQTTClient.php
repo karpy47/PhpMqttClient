@@ -391,7 +391,7 @@ class MQTTClient {
 	 * @param byte $qos
 	 * @return boolean
 	 */
-	public function sendPublish($topic, $message, $qos = self::MQTT_QOS1) {
+	public function sendPublish($topic, $message, $qos = self::MQTT_QOS1, $retain = 0) {
 	    if(!$this->isConnected()) return false;
 
 	    if($qos!=self::MQTT_QOS0 && $qos!=self::MQTT_QOS1 && $qos!=self::MQTT_QOS2) return false;
@@ -405,7 +405,6 @@ class MQTTClient {
 	    $payload .= $message;
 
 	    $dupFlag = 0;
-	    $retain = 0;
 	    $header = $this->createHeader(self::MQTT_PUBLISH + ($dupFlag<<3) + ($qos<<1) + $retain, $payload);
 	    $this->debugMessage('Sending PUBLISH');
 	    $this->send($header . $payload);
