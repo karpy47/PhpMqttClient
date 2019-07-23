@@ -71,6 +71,8 @@ class MQTTClient {
 
 	public $lastConnectResult = 0;
 
+	protected $subscribedTopics = [];
+
 	/**
 	 * Class constructor - Sets up connection parameters
 	 *
@@ -225,7 +227,7 @@ class MQTTClient {
 	    // Basic validation of clientid
 	    // Note: A MQTT server may accept other chars and more than 23 chars in the clientid but that is optional, 
 	    // all chars below up to 23 chars are required to be accepted (see section "3.1.3.1 Client Identifier" of the standard)
-	    if(preg_match("/[^0-9a-zA-Z]/",$clientId)) {
+	    if(preg_match("/[^0-9a-zA-Z\-]/",$clientId)) {
 	        $this->debugMessage('ClientId can only contain characters 0-9,a-z,A-Z');
 	        return false;
 	    }
@@ -520,6 +522,10 @@ class MQTTClient {
 	public function sendSubscribe($topics, $qos = self::MQTT_QOS1) {
 	    if (!is_array($topics)) $topics = [$topics];
 	    if(!$this->isConnected()) return false;
+	    foreach ($topics AS $topic)
+        {
+            $this->subscribedTopics[] = $topic;
+        }
 
 	    $packetId = $this->getNextPacketId();
 	    $payload = $this->getPacketIdPayload();
@@ -573,6 +579,11 @@ class MQTTClient {
 	    $packetId = $this->getNextPacketId();
 	    $payload = $this->getPacketIdPayload();
 	    foreach($topics as $topic) {
+	        $k = array_search($topic, $this->subscribedTopics);
+	        if ($k !== FALSE)
+            {
+                unset($this->subscribedTopics[$k]);
+            }
 	        $payload .= $this->createPayload($topic);
 	    }
 	    $header = $this->createHeader(self::MQTT_UNSUBSCRIBE + 0x02, $payload);
@@ -1011,6 +1022,25 @@ class MQTTClient {
             
             // Package was successfully confirmed or no confirmation needed/wanted --> store it
             $messages[] = $message;
+	    }
+	    return $messages;
+	}
+
+	/**
+	 * Get PUBLISH packets and return them as messages
+	 *
+	 * @param integer $maxMessages Max messages to read
+	 * @param boolean $sendPubAck If true, then send PUBACK to MQTT-server (QoS 1)
+	 * @param boolean $sendPubRec If true, then send PUBREC to MQTT-server, wait for PUBREL and send PUBCOMP (QoS 2)
+	 * @return string[] All PUBLISH messages which were confirmed or no confirmation needed/wanted
+	 */
+	public function getPublishMessagesOnSubscribedTopics($maxMessages = 100, $sendPubAck = false, $sendPubRec = false) {
+	    $messages = $this->getPublishMessages($maxMessages, $sendPubAck, $sendPubRec);
+	    foreach ($messages as $message) {
+	        if (!in_array($message['topic'], $this->subscribedTopics))
+            {
+                continue;
+            }
 	    }
 	    return $messages;
 	}
