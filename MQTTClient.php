@@ -649,7 +649,7 @@ class MQTTClient {
 	 * @return boolean
 	 */
 	public function isAlive() {
-	    return $this->isConnected() && ($this->serverAliveTime + $this->connectKeepAlive <= time());
+	    return $this->isConnected() && ($this->serverAliveTime + $this->connectKeepAlive > time());
 	}
 
 	/**
