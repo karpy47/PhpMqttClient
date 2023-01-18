@@ -389,6 +389,7 @@ class MQTTClient {
      * @param string $topic
      * @param string $message
      * @param byte $qos
+     * @param boolean $retain
      * @return boolean
      */
     public function sendPublish($topic, $message, $qos = self::MQTT_QOS1, $retain = 0) {
